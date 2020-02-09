@@ -1,6 +1,4 @@
-# include "../libft/libft.h"
-# include "../libft/get_next_line.h"
-# include "fillit.h"
+# include "../includes/fillit.h"
 /*
 * find int square root
 */

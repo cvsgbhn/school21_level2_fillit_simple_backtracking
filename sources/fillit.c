@@ -1,53 +1,20 @@
-# include "../libft/libft.h"
-# include "../libft/get_next_line.h"
-# include "fillit.h"
+#include "../includes/fillit.h"
 
-/*
-* almost the same like move tetromino further - rollback.
-* but only for x axys.
-* may be there will be one for y rollback, i have no fucking idea
-*/
-void    coords_rollback(int last, int xory[4])
+void    test_print_structure(t_element *tetromino)
 {
-    int     counter;
-    printf("%s\n", "ENTERED preparing_routine.c/coords_rollback :14");
+    int counter = 0;
+    printf("%s\n", "TEST");
 
-
-    counter = -1;
-    while (counter++ < last)
-        xory[counter]--;
-}
-
-/*
-* move tetrimino figure on the board, one position further to the right.
-* we need here to recalculate coordinates for every spot.
-* if any single spot coordinate > size of board: rollback,
-* move further down the board.
-* if the end of board reached - return something like nothing
-*/
-int    move_tetromino_once(int square_size, int x_coords[4], int y_coords[4])
-{
-    int     ox;
-    int     oy;
-    printf("%s\n", "ENTERED preparing_routine.c/move_tetromino_once :33");
-
-    ox = -1;
-    oy = -1;
-    while (ox++ < 4)
+    while (tetromino->next != NULL)
     {
-        if (x_coords[ox] > square_size)
+        printf("%s %c\n", "tetromino letter", tetromino->letter);
+        while (counter < 4)
         {
-            coords_rollback(ox, x_coords);
-            while (oy++ < 4)
-            {
-                y_coords[oy]++;
-                if (y_coords[oy] >square_size)
-                    return(-1);
-            }
+            printf("%s %d\n", "x", tetromino->x_coords[counter]);
+            printf("%s %d\n", "y", tetromino->y_coords[counter]);
+            counter++;
         }
-        x_coords[ox]++;
     }
-    return (1);
 }
 
 /*
@@ -137,7 +104,7 @@ int     min_in_array(int *numbers)
 * for every x in x-coordinates array: x = x - min(x-coordinates)
 * for every y in y-coordinates array: y = y - min(y-coordinates)
 */
-int   *find_new_coordinates(int *xory_coords)
+void   find_new_coordinates(int tetro_coords[4], int xory_coords[4])
 {
     int   counter;
     int   min;
@@ -147,21 +114,21 @@ int   *find_new_coordinates(int *xory_coords)
     min = min_in_array(xory_coords);
     while (counter < 4)
     {
-        xory_coords[counter] = xory_coords[counter] - min;
+        tetro_coords[counter] = xory_coords[counter] - min;
         counter++;
     }
-    printf("%s\n", "preparing_routine.c/find_new_coordinates :147");
-    return (xory_coords);
+    printf("%s\n", "END OF find_new_coordinates");
 }
 
 /*
  * here we read and write just one tetromino to its own element of DDL
  */
-int	get_one_tetromino(d_list **new_element, int fd, size_t letter)
+int	get_one_tetromino(t_element *new_element, int fd, char letter)
 {
     char	*tmp_line;
     char 	*main_line;
     int 	counter;
+    int     *full_coords;
     printf("%s\n", "ENTERED preparing_routine.c/get_one_tetromino :205");
 
     main_line = "";
@@ -177,55 +144,49 @@ int	get_one_tetromino(d_list **new_element, int fd, size_t letter)
     }
     if (counter < 4)
         return (0);
-    (*new_element)->content = ft_strdup(main_line);
-    (*new_element)->content_size = letter;
-    counter = -1;
-    while (counter++ < 4)
-    {
-        (*new_element)->x_coords[counter] = 0;
-        (*new_element)->y_coords[counter] = 0;
-    }
-    printf("%s\n", "preparing_routine.c :220");
+    // check main line aka tetromino here !!!
+    new_element->letter = letter;
+    // get coords!!!
+    full_coords = (find_old_coordinates(main_line));
+    find_new_coordinates(new_element->x_coords, (parse_to_xy(full_coords, 'x')));
+    find_new_coordinates(new_element->y_coords, (parse_to_xy(full_coords, 'y')));
+    printf("%s\n", "preparing_routine");
     return (1);
 }
+
 
 /*
  * this funciton takes existing tetromino list and adds to it one by one new elements with written tetrominoes
  */
-d_list	*get_tetrominos(int fd)
+t_element	*get_tetrominos(int fd)
 {
-    d_list	*tmp_list;
-    d_list  *next_list;
-    d_list	*head;
-    size_t  letter_num;
-    printf("%s\n", "ENTERED preparing_routine.c/get_tetrominos :243");
+    t_element	*tmp_tetro;
+    t_element  *next_tetro;
+    t_element	*head;
+    char  letter;
+    printf("%s\n", "ENTERED ");
 
-    letter_num = 65;
-    tmp_list = ft_doubly_linked_lstnew("\0", 0);
-    head = tmp_list;
-    while ((get_one_tetromino(&tmp_list, fd, letter_num)))
+    letter = 65;
+    tmp_tetro = create_t_element(letter);
+    head = tmp_tetro;
+    while ((get_one_tetromino(tmp_tetro, fd, letter++)))
     {
-        next_list = ft_doubly_linked_lstnew("\0", 0);
-        ft_doubly_linked_lstadd_toend(&tmp_list, next_list);
-        tmp_list = tmp_list->next;
-        letter_num ++;
-        printf("%ld\n", letter_num);
+        next_tetro = create_t_element(letter);
+        add_last_t_element(&tmp_tetro, next_tetro);
+        tmp_tetro = tmp_tetro->next;
+        test_print_structure(tmp_tetro);
     }
-    // test printf, never mind
-    printf("%s\n", "preparing_routine.c :245");
-
 
     return (head);
 }
 
-int     reader()
+t_element     *reader(char *file)
 {
     int fd;
     int size;
-    if (argc < 2)
-        return (-1);
+    t_element *input_data;
 
-    fd = open(argv[1], O_RDONLY);
+    fd = open(file, O_RDONLY);
     input_data = get_tetrominos(fd);
-    return (0);
+    return (input_data);
 }

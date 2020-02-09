@@ -1,4 +1,4 @@
-# include "fillit.h"
+#include "../includes/fillit.h"
 
 int		main(int argc, char **argv)
 {
@@ -14,6 +14,6 @@ int		main(int argc, char **argv)
         ft_putstr("error\n");
         return (1);
     }
-    solve(piecelist);
+    //solve(piecelist);
     return (0);
 }

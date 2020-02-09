@@ -1,39 +1,26 @@
 .PHONY: clean fclean re make all
 
-FILENAMES = fillit.c
-FILENAMES +=  basic_calculations.c
-FILENAMES += dlx_algorithm.c dlx_structures_routine.c
-FILENAMES += preparing_routine.c
 NAME = fillit
+SRCS = ./sources/main.c ./sources/fillit.c ./sources/tetro_structure_routine.c ./sources/basic_calculations.c
+OBJS = ${SRCS:.c=.o}
+HDR = ./includes/
+FLAGS = -Wall -Wextra -Werror
 
-SRCS	=$(addprefix sources/, $(FILENAMES))
-OBJS	=$(addprefix build/, $(FILENAMES:.c=.o))
-
-CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror
-CFLAGS	+= -I includes/
-LFLAGS	= -L ./libft/
+LIBFT = libft/
 
 all: $(NAME)
 
-$(NAME):$(OBJS) | lib
-	@$(CC) $(CFLAGS) -o $(NAME) $(LFLAGS) $(OBJS) -lft
+$(NAME):
+	make -C $(LIBFT)
+	gcc $(FLAGS) -o $(NAME) $(SRCS) -I $(HDR) -L. libft/libft.a
 
-build/%.o: sources/%.c | build
-	@$(CC) $(CFLAGS) -o $@ -c $^
+clean:
+	/bin/rm -f $(OBJS)
+	make -C $(LIBFT) clean
+
+fclean: clean
+	/bin/rm -f $(NAME)
+	make -C $(LIBFT) fclean
 
 re: fclean all
 
-lib:
-	@make -C ./libft
-	@make clean -C ./libft
-
-clean:
-	@rm -rf build/
-
-fclean: clean
-	@make fclean -C ./Libft
-	@rm -f $(NAME)
-
-build:
-	@mkdir build/
