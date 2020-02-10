@@ -1,7 +1,8 @@
 .PHONY: clean fclean re make all
 
 NAME = fillit
-SRCS = ./sources/main.c ./sources/fillit.c ./sources/tetro_structure_routine.c ./sources/basic_calculations.c
+SRCS = ./sources/main.c ./sources/fillit.c ./sources/tetro_structure_routine.c \
+ 			./sources/basic_calculations.c ./sources/board_routine.c
 OBJS = ${SRCS:.c=.o}
 HDR = ./includes/
 FLAGS = -Wall -Wextra -Werror
@@ -23,4 +24,3 @@ fclean: clean
 	make -C $(LIBFT) fclean
 
 re: fclean all
-

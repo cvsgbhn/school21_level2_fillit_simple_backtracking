@@ -2,7 +2,7 @@
 
 int		main(int argc, char **argv)
 {
-    t_piece	*tetromino_list;
+    t_element	*tetromino_list;
 
     if (argc != 2)
     {

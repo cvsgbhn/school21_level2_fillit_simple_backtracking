@@ -5,15 +5,12 @@ void    test_print_structure(t_element *tetromino)
     int counter = 0;
     printf("%s\n", "TEST");
 
-    while (tetromino->next != NULL)
+    printf("%s %c\n", "tetromino letter", tetromino->letter);
+    while (counter < 4)
     {
-        printf("%s %c\n", "tetromino letter", tetromino->letter);
-        while (counter < 4)
-        {
-            printf("%s %d\n", "x", tetromino->x_coords[counter]);
-            printf("%s %d\n", "y", tetromino->y_coords[counter]);
-            counter++;
-        }
+        printf("%s %d\n", "x", tetromino->x_coords[counter]);
+        printf("%s %d\n", "y", tetromino->y_coords[counter]);
+        counter++;
     }
 }
 
@@ -33,12 +30,16 @@ int     *find_old_coordinates(char *tetromino)
     counter = 0;
     coord = 0;
     coordinates = (int *)malloc(8 * sizeof(int));
-    while (rows_num != 3)
+    printf("%s%s\n", "tetromino:\n", tetromino);
+    while (rows_num != 4)
     {
-        while (tetromino[counter + 4*rows_num] && counter != 4)
+        printf("%s\n", "old coords :35");
+        counter = 0;
+        while (tetromino[counter + 5*rows_num] && counter != 5)
         {
-            if (tetromino[counter + 4*rows_num] == '#')
+            if (tetromino[counter + 5*rows_num] == '#')
             {
+                printf("%d %s\n", tetromino[counter + 5*rows_num], "old coords :40");
                 coordinates[coord] = counter;
                 coordinates[coord + 1] = rows_num;
                 coord += 2;
@@ -46,6 +47,12 @@ int     *find_old_coordinates(char *tetromino)
             counter ++;
         }
         rows_num++;
+    }
+    counter = 0;
+    while (counter < 8)
+    {
+        printf("%s %d\n", "all coordinates", coordinates[counter]);
+        counter++;
     }
     return (coordinates);
 }
@@ -150,6 +157,13 @@ int	get_one_tetromino(t_element *new_element, int fd, char letter)
     full_coords = (find_old_coordinates(main_line));
     find_new_coordinates(new_element->x_coords, (parse_to_xy(full_coords, 'x')));
     find_new_coordinates(new_element->y_coords, (parse_to_xy(full_coords, 'y')));
+    counter = 0;
+    while (counter < 4)
+    {
+        printf("%s %d\n", "aa_x", new_element->x_coords[counter]);
+        printf("%s %d\n", "aa_y", new_element->y_coords[counter]);
+        counter++;
+    }
     printf("%s\n", "preparing_routine");
     return (1);
 }
@@ -173,9 +187,10 @@ t_element	*get_tetrominos(int fd)
     {
         next_tetro = create_t_element(letter);
         add_last_t_element(&tmp_tetro, next_tetro);
-        tmp_tetro = tmp_tetro->next;
         test_print_structure(tmp_tetro);
+        tmp_tetro = tmp_tetro->next;
     }
+    test_print_structure(tmp_tetro);
 
     return (head);
 }
@@ -183,7 +198,6 @@ t_element	*get_tetrominos(int fd)
 t_element     *reader(char *file)
 {
     int fd;
-    int size;
     t_element *input_data;
 
     fd = open(file, O_RDONLY);

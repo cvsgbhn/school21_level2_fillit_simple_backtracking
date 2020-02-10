@@ -21,7 +21,7 @@ t_element	*create_t_element(char letter)
     newlist->x_shift = 0;
     newlist->y_shift = 0;
     newlist->letter = letter;
-    return (&newlist);
+    return (newlist);
 }
 
 void	add_last_t_element(t_element** head, t_element *new_node)
