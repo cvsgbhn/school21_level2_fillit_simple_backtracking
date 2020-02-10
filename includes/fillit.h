@@ -18,6 +18,11 @@ typedef struct          s_tetromino
 
 }                       t_element;
 
+typedef struct  s_board
+{
+  char          **board;
+}               t_board;
+
 /*
  * TESTS
  */
@@ -48,6 +53,7 @@ t_element     *reader(char *file);
 /*
  * board routine
  */
- char **create_board(int size);
+ t_board *create_board(int size);
+ void print_board(t_board *board, int size);
 
 #endif

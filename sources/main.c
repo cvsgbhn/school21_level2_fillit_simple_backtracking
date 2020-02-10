@@ -3,6 +3,8 @@
 int		main(int argc, char **argv)
 {
     t_element	*tetromino_list;
+    t_board   *board;
+    int size;
 
     if (argc != 2)
     {
@@ -14,6 +16,14 @@ int		main(int argc, char **argv)
         ft_putstr("error\n");
         return (1);
     }
+    // TEST:
+
+    size = 5;
+    board = create_board(size);
+    print_board(board, size);
+
+    // END TEST
+    
     //solve(piecelist);
     return (0);
 }
