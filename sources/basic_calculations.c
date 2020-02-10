@@ -31,3 +31,19 @@ int find_field_size(int tetro_num)
     size = sqrt_root(tetro_num * 4);
     return size;
 }
+
+/*
+ * find length of tetromino list
+ */
+int   find_tetrominos_number(t_element *tetrolist)
+{
+  int elements;
+
+  elements = 0;
+  while(tetrolist->next != NULL)
+  {
+    tetrolist = tetrolist->next;
+    elements++;
+  }
+  return elements;
+}

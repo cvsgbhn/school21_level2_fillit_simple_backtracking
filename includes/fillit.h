@@ -56,4 +56,11 @@ t_element     *reader(char *file);
  t_board *create_board(int size);
  void print_board(t_board *board, int size);
 
+ /*
+  * some basic calculations
+  */
+  int   find_tetrominos_number(t_element *tetrolist);
+  int find_field_size(int tetro_num);
+  int sqrt_root(int number);
+
 #endif

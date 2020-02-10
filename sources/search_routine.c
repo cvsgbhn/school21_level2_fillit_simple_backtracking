@@ -1,6 +1,14 @@
 #include "../includes/fillit.h"
 
-void search_manager(/* arguments */)
+int searcher(t_element *tetromino, t_board *board, int b_size)
+{}
+
+void search_manager(t_element *tetrolist)
 {
-  /* code */
+  int size;
+
+  size = find_field_size(find_tetrominos_number(tetrolist));
+  board = create_board(size);
+  print_board(board, size);
+  
 }
