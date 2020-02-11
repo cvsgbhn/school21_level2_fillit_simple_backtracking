@@ -3,8 +3,6 @@
 int		main(int argc, char **argv)
 {
     t_element	*tetromino_list;
-    t_board   *board;
-    int size;
 
     if (argc != 2)
     {
@@ -18,12 +16,11 @@ int		main(int argc, char **argv)
     }
     // TEST:
 
-    size = 5;
-    board = create_board(size);
-    print_board(board, size);
+    search_manager(tetromino_list);
 
     // END TEST
-    
-    //solve(piecelist);
+
+    //search_manager(tetromino_list);
+    // free tetromino_list
     return (0);
 }

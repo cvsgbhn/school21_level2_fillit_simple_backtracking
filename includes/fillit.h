@@ -49,6 +49,11 @@ t_element     *reader(char *file);
 /*
  * solver routine
  */
+ void search_manager(t_element *tetrolist);
+ int   check_other_tetromino(t_element *tetromino, t_board *board, int size);
+ char   check_bounds(int size, t_element *tetromino);
+ void place_tetromino(t_element *tetromino, t_board *board, int flag);
+ int searcher(t_element *tetromino, t_board *board, int b_size);
 
 /*
  * board routine
