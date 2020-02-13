@@ -141,7 +141,7 @@ int	get_one_tetromino(t_element *new_element, int fd, char letter)
     main_line = "";
     counter = 0;
     // single tetromino string has 4 newlines
-    while (counter <= 4)
+    while (counter <= 3)
     {
         if(!(get_next_line(fd, &tmp_line)))
             break ;
@@ -149,7 +149,8 @@ int	get_one_tetromino(t_element *new_element, int fd, char letter)
         main_line = ft_strjoin(main_line, "\n");
         counter++;
     }
-    if (counter < 4)
+    get_next_line(fd, &tmp_line);
+    if (counter < 3)
         return (0);
     // check main line aka tetromino here !!!
     new_element->letter = letter;
@@ -165,6 +166,7 @@ int	get_one_tetromino(t_element *new_element, int fd, char letter)
         counter++;
     }
     printf("%s\n", "preparing_routine");
+    printf("%s %d\n","VALID TETRO Or nOT???? ow0", valid_figure(main_line, new_element));
     return (valid_symbols(main_line));
 }
 
