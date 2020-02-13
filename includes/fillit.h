@@ -68,4 +68,9 @@ t_element     *reader(char *file);
   int find_field_size(int tetro_num);
   int sqrt_root(int number);
 
+/*
+ * checker
+ */
+ int valid_symbols(char *tetromino);
+
 #endif

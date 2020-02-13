@@ -2,7 +2,8 @@
 
 NAME = fillit
 SRCS = ./sources/main.c ./sources/fillit.c ./sources/tetro_structure_routine.c \
- 			./sources/basic_calculations.c ./sources/board_routine.c ./sources/search_routine.c
+ 			./sources/basic_calculations.c ./sources/board_routine.c \
+			./sources/search_routine.c ./sources/checker.c
 OBJS = ${SRCS:.c=.o}
 HDR = ./includes/
 FLAGS = -Wall -Wextra -Werror

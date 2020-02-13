@@ -165,7 +165,7 @@ int	get_one_tetromino(t_element *new_element, int fd, char letter)
         counter++;
     }
     printf("%s\n", "preparing_routine");
-    return (1);
+    return (valid_symbols(main_line));
 }
 
 
@@ -178,20 +178,22 @@ t_element	*get_tetrominos(int fd)
     t_element  *next_tetro;
     t_element	*head;
     char  letter;
+    int   valid;
     printf("%s\n", "ENTERED ");
 
     letter = 65;
     tmp_tetro = create_t_element(letter);
     head = tmp_tetro;
-    while ((get_one_tetromino(tmp_tetro, fd, letter++)))
+    while (((valid = get_one_tetromino(tmp_tetro, fd, letter++)) == 1))
     {
         next_tetro = create_t_element(letter);
         add_last_t_element(&tmp_tetro, next_tetro);
         test_print_structure(tmp_tetro);
         tmp_tetro = tmp_tetro->next;
     }
+    if (valid == -1)
+      return((head = NULL));
     test_print_structure(tmp_tetro);
-
     return (head);
 }
 
@@ -201,6 +203,8 @@ t_element     *reader(char *file)
     t_element *input_data;
 
     fd = open(file, O_RDONLY);
-    input_data = get_tetrominos(fd);
-    return (input_data);
+    if((input_data = get_tetrominos(fd)))
+      return (input_data);
+    else
+      return NULL;
 }
