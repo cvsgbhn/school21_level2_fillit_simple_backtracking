@@ -165,9 +165,10 @@ int	get_one_tetromino(t_element *new_element, int fd, char letter)
         printf("%s %d\n", "aa_y", new_element->y_coords[counter]);
         counter++;
     }
-    printf("%s\n", "preparing_routine");
-    printf("%s %d\n","VALID TETRO Or nOT???? ow0", valid_figure(main_line, new_element));
-    return (valid_symbols(main_line));
+    if((valid_figure(main_line, new_element)==-1) || (valid_symbols(main_line)==-1))
+        return(-1);
+    free(main_line);
+    return (1);
 }
 
 
