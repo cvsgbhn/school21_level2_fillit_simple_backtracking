@@ -165,7 +165,7 @@ int	get_one_tetromino(t_element *new_element, int fd, char letter)
         printf("%s %d\n", "aa_y", new_element->y_coords[counter]);
         counter++;
     }
-    if((valid_figure(main_line, new_element)==-1) || (valid_symbols(main_line)==-1))
+    if((valid_figure(main_line, full_coords)==-1) || (valid_symbols(main_line)==-1))
         return(-1);
     free(main_line);
     return (1);

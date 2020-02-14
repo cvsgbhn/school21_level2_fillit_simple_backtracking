@@ -72,6 +72,6 @@ t_element     *reader(char *file);
  * checker
  */
  int valid_symbols(char *tetromino);
- int valid_figure(char *tetromino, t_element *telement);
+ int valid_figure(char *tetromino, int coords[8]);
 
 #endif

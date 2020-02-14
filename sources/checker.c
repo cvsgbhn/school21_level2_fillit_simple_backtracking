@@ -1,12 +1,6 @@
 # include "fillit.h"
 
 /*
- * valid figure
- * input: coords, i think
- */
-
-
-/*
  * count symbols, strings,, etc.
  * also check if there are only valid symbols
  */
@@ -37,7 +31,7 @@
    return (1);
  }
 
-int valid_figure(char *tetromino, t_element *telement)
+int valid_figure(char *tetromino, int coords[8])
 {
   //int relations[4];
   int position;
@@ -47,20 +41,20 @@ int valid_figure(char *tetromino, t_element *telement)
   cntr = 0;
   position = 0;
   relations = 0;
-  while(cntr < 4)
+  while(cntr < 8)
   {
     //relations[cntr] = 0;
-    position = telement->x_coords[cntr] + (5 * (telement->y_coords[cntr]) + 1);
+    position = coords[cntr] + 5 * coords[cntr+1];
     printf("%s %d\n", "position ", position);
     if ((position - 5) > 0 && tetromino[position - 5] == '#')
       relations++;
     if ((position - 1) > 0 && tetromino[position - 1] == '#')
       relations++;
-    if ((position + 5) > 0 && tetromino[position + 5] == '#')
+    if ((position + 5) < 21 && tetromino[position + 5] == '#')
       relations++;
-    if ((position + 1) > 0 && tetromino[position + 1] == '#')
+    if ((position + 1) < 21 && tetromino[position + 1] == '#')
       relations++;
-    cntr++;
+    cntr+=2;
   }
   printf("%s %d\n", "RELATIONS TEST: ",relations);
   if (relations < 5 || relations > 8)
