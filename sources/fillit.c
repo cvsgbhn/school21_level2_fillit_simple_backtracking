@@ -115,7 +115,6 @@ void   find_new_coordinates(int tetro_coords[4], int xory_coords[4])
 {
     int   counter;
     int   min;
-    printf("%s\n", "ENTERED preparing_routine.c/find_new_coordinates :145");
 
     counter = 0;
     min = min_in_array(xory_coords);
@@ -124,7 +123,7 @@ void   find_new_coordinates(int tetro_coords[4], int xory_coords[4])
         tetro_coords[counter] = xory_coords[counter] - min;
         counter++;
     }
-    printf("%s\n", "END OF find_new_coordinates");
+    free(xory_coords);
 }
 
 /*
@@ -136,25 +135,30 @@ int	get_one_tetromino(t_element *new_element, int fd, char letter)
     char 	*main_line;
     int 	counter;
     int     *full_coords;
-    printf("%s\n", "ENTERED preparing_routine.c/get_one_tetromino :205");
+    char    *wtf_line;
 
     main_line = "";
     counter = 0;
-    // single tetromino string has 4 newlines
     while (counter <= 3)
     {
         if(!(get_next_line(fd, &tmp_line)))
             break ;
+        wtf_line = main_line;
         main_line = ft_strjoin(main_line, tmp_line);
+        free(tmp_line);
+        if (counter > 0)
+            free(wtf_line);
+        wtf_line = main_line;
         main_line = ft_strjoin(main_line, "\n");
+        free(wtf_line);
         counter++;
+        //free(tmp_line);
     }
     get_next_line(fd, &tmp_line);
+    printf("%s %s\n", "asshole", tmp_line);
     if (counter < 3)
         return (0);
-    // check main line aka tetromino here !!!
     new_element->letter = letter;
-    // get coords!!!
     full_coords = (find_old_coordinates(main_line));
     find_new_coordinates(new_element->x_coords, (parse_to_xy(full_coords, 'x')));
     find_new_coordinates(new_element->y_coords, (parse_to_xy(full_coords, 'y')));
@@ -168,6 +172,7 @@ int	get_one_tetromino(t_element *new_element, int fd, char letter)
     if((valid_figure(main_line, full_coords)==-1) || (valid_symbols(main_line)==-1))
         return(-1);
     free(main_line);
+    free(full_coords);
     return (1);
 }
 

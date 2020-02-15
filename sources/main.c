@@ -22,6 +22,6 @@ int		main(int argc, char **argv)
         return (1);
     }
     search_manager(tetromino_list);
-    // free tetromino_list
+    free_tetrolist(tetromino_list);
     return (0);
 }

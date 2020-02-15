@@ -40,3 +40,15 @@ void	add_last_t_element(t_element** head, t_element *new_node)
     last->next = new_node;
     return;
 }
+
+void    free_tetrolist(t_element *tetrolist)
+{
+    t_element   *curr_elem;
+
+   while(tetrolist)
+   {
+       curr_elem = tetrolist;
+       tetrolist = tetrolist->next;
+       free(curr_elem);
+   }
+}

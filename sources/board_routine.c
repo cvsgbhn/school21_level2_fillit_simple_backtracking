@@ -33,3 +33,18 @@ void print_board(t_board *board, int size)
     counter++;
   }
 }
+
+void    free_board(t_board *board, int size)
+{
+    int i;
+
+    i = 0;
+    while(i < size)
+    {
+        printf("%s\n", "free row of board");
+        ft_memdel((void **)&(board->board[i]));
+        i++;
+    }
+    ft_memdel((void **)&(board->board));
+    ft_memdel((void **)&board);
+}

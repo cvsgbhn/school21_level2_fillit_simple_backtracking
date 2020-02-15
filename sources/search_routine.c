@@ -101,11 +101,11 @@ void search_manager(t_element *tetrolist)
   while(searcher(tetrolist, board, size) == 0)
   {
     printf("%s\n","resize map");
+    free_board(board, size);
     size++;
-    // free board
     board = create_board(size);
   }
   printf("%s","\n\nHOOORAAAY!!!!\n\n");
   print_board(board, size);
-  // free board
+  free_board(board, size);
 }
