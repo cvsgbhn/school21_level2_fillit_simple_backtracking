@@ -28,8 +28,7 @@ void print_board(t_board *board, int size)
   counter = 0;
   while(counter < size)
   {
-    ft_putstr(board->board[counter]);
-    ft_putchar('\n');
+    ft_putendl(board->board[counter]);
     counter++;
   }
 }

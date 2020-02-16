@@ -146,6 +146,7 @@ int	get_one_tetromino(t_element *new_element, int fd, char letter)
         wtf_line = main_line;
         main_line = ft_strjoin(main_line, tmp_line);
         free(tmp_line);
+        tmp_line = NULL;
         if (counter > 0)
             free(wtf_line);
         wtf_line = main_line;
@@ -155,6 +156,8 @@ int	get_one_tetromino(t_element *new_element, int fd, char letter)
         //free(tmp_line);
     }
     get_next_line(fd, &tmp_line);
+    if (tmp_line != NULL && ft_strlen(tmp_line) < 2)
+        free(tmp_line);
     printf("%s %s\n", "asshole", tmp_line);
     if (counter < 3)
         return (0);
